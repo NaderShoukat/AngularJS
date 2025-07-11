@@ -1,33 +1,24 @@
-angular.module('app').controller('NotificationsController', function($scope, notificationDataService) {
-    // List all notifications
-    $scope.notifications = [];
-    notificationDataService.getAll().then(function(res) {
-        $scope.notifications = res.data;
-    });
-
-    // Add notification
-    $scope.addNotification = function(notification) {
-        notificationDataService.create(notification).then(function() {
-            // Reload list or redirect
-        });
-    };
-
-    // Edit notification
-    $scope.editNotification = function(notification) {
-        $scope.currentNotification = angular.copy(notification);
-    };
-
-    // Update notification
-    $scope.updateNotification = function(notification) {
-        notificationDataService.update(notification).then(function() {
-            // Reload list or redirect
-        });
-    };
-
-    // Delete notification
-    $scope.deleteNotification = function(id) {
-        notificationDataService.delete(id).then(function() {
-            // Reload list
-        });
-    };
-});
+<div ng-controller="NotificationsController">
+    <h2>Notifications</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Actions</th>
+        </tr>
+        <tr ng-repeat="n in notifications">
+            <td>{{n.title}}</td>
+            <td>{{n.message}}</td>
+            <td>
+                <button ng-click="editNotification(n)">Edit</button>
+                <button ng-click="deleteNotification(n.id)">Delete</button>
+            </td>
+        </tr>
+    </table>
+    <button ng-click="showAddForm = true">Add Notification</button>
+    <div ng-show="showAddForm">
+        <input ng-model="newNotification.title" placeholder="Title" />
+        <input ng-model="newNotification.message" placeholder="Message" />
+        <button ng-click="addNotification(newNotification)">Save</button>
+    </div>
+</div>
