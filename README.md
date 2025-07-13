@@ -1,16 +1,35 @@
-<div class="navbar-inner">
-    <ul class="nav">
-        <li><a class="new-item" href="#">New</a></li>
-        <li><a class="edit disabled require-item-selection" href="#">Edit</a></li>
-        <li class="divider-vertical"></li>
-        <li><a class="delete disabled require-item-selection" href="#">Delete</a></li>
-        <li class="divider-vertical"></li>
-        <li><a class="update-date" href="#">Update</a></li>
-        <li class="search">
-            <label for="search_notifications">Search:</label>
-            <input id="search_notifications" type="text"/>
-        </li>
-    </ul>
-</div>
-<div id="deletePopupContainer"></div>
-<div id="popupContainer"></div>
+define([
+    'text!templates/notifications/index.html',
+    'collections/NotificationsCollection',
+    'views/notifications/navbar'
+], function(indexTemplate, NotificationsCollection, NavbarView) {
+    var NotificationsIndexView = Backbone.View.extend({
+        el: '#main-content',
+        template: _.template(indexTemplate),
+        initialize: function() {
+            this.collection = new NotificationsCollection();
+            this.listenTo(this.collection, 'reset', this.renderGrid);
+            this.render();
+            this.collection.fetch({reset: true});
+        },
+        render: function() {
+            this.$el.html(this.template());
+            this.navbar = new NavbarView({ collection: this.collection });
+            this.$('.navbar').html(this.navbar.render().el);
+        },
+        renderGrid: function() {
+            var $tbody = this.$('tbody').empty();
+            this.collection.each(function(notification) {
+                $tbody.append(
+                    `<tr data-id="${notification.id}">
+                        <td>${notification.get('title')}</td>
+                        <td>${notification.get('message')}</td>
+                        <td>${notification.get('type')}</td>
+                        <td>${notification.get('date')}</td>
+                    </tr>`
+                );
+            });
+        }
+    });
+    return NotificationsIndexView;
+});
