@@ -1,27 +1,7 @@
-define([
-    'views/notifications/notificationDatagridView',
-    'views/notifications/notificationEditView'
-], function(notificationDatagridView, notificationEditView) {
-    var notificationsRouter = Backbone.Router.extend({
-        routes: {
-            "notifications": "showNotifications",
-            "notifications/new": "createNotification",
-            "notifications/edit/:id": "editNotification"
-        },
-
-        showNotifications: function () {
-            // Render notifications grid view
-            notificationDatagridView.render();
-        },
-
-        createNotification: function () {
-            notificationEditView.render({ mode: 'create' });
-        },
-
-        editNotification: function (id) {
-            notificationEditView.render({ mode: 'edit', id: id });
-        }
+define(['models/Notification'], function(Notification) {
+    var NotificationCollection = Backbone.Collection.extend({
+        model: Notification,
+        url: '/api/notifications' // Update if different
     });
-
-    return new notificationsRouter();
+    return NotificationCollection;
 });
