@@ -1,84 +1,135 @@
-namespace ETSAdminSite.Web.UI.Models
-{
-    public class Notification
-    {
-        public string id { get; set; }
-        public string title { get; set; }
-        public string message { get; set; }
-        public string date { get; set; }
-        public string type { get; set; }
+angular.module('dataservices.notificationDataService', [])
+  .factory('notificationDataService', function($http) {
+    var baseUrl = '/Notification'; // adjust route if needed
+
+    return {
+      // Get all notifications
+      download: function(successCallback, failureCallback) {
+        var promise = $http.get(baseUrl + '?format=json');
+        promise.then(function(response) {
+          successCallback(response.data);
+        }, failureCallback);
+      },
+      // Get by id
+      getById: function(id, successCallback, failureCallback) {
+        var promise = $http.get(baseUrl + '/' + id + '?format=json');
+        promise.then(function(response) {
+          successCallback(response.data);
+        }, failureCallback);
+      },
+      // Create
+      create: function(data, successCallback, failureCallback) {
+        var promise = $http.post(baseUrl, data);
+        promise.then(successCallback, failureCallback);
+      },
+      // Update
+      update: function(id, data, successCallback, failureCallback) {
+        var promise = $http.put(baseUrl + '/' + id, data);
+        promise.then(successCallback, failureCallback);
+      },
+      // Delete
+      remove: function(id, successCallback, failureCallback) {
+        var promise = $http.delete(baseUrl + '/' + id);
+        promise.then(successCallback, failureCallback);
+      }
+    };
+  });
+
+
+
+angular.module('notifications').controller('NotificationsController',
+  function($scope, notificationDataService) {
+    $scope.notifications = [];
+
+    // Load notifications
+    function load() {
+      notificationDataService.download(function(data) {
+        $scope.notifications = data;
+      }, function(error) {
+        alert('Error loading notifications');
+      });
     }
-}
+    load();
+
+    // Add Notification
+    $scope.add = function(newNotification) {
+      notificationDataService.create(newNotification, function() {
+        load();
+      });
+    };
+
+    // Update Notification
+    $scope.update = function(notification) {
+      notificationDataService.update(notification.id, notification, function() {
+        load();
+      });
+    };
+
+    // Delete Notification
+    $scope.remove = function(id) {
+      notificationDataService.remove(id, function() {
+        load();
+      });
+    };
+  });
+
+
+
+
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using ETSAdminSite.Web.UI.Models;
-using Newtonsoft.Json;
+using YourProject.Models; // adjust as needed
 
-namespace ETSAdminSite.Web.UI.Controllers
+namespace YourProject.Controllers
 {
     public class NotificationsController : Controller
     {
-        // Static in-memory notifications list (simulates database)
-        private static List<Notification> items = new List<Notification>
+        static List<Notification> notifications = new List<Notification>
         {
-            new Notification { id = "1", title = "Server Maintenance", message = "Scheduled maintenance at 2AM.", date = "2024-07-15", type = "info" },
-            new Notification { id = "2", title = "Policy Update", message = "Review updated company policies.", date = "2024-07-14", type = "alert" }
+            new Notification { Id = 1, Message = "Test Notification", Type = "Info" }
         };
 
-        // GET: /Notifications/Index
         [HttpGet]
-        public ActionResult Index(string callback)
+        public JsonResult Index()
         {
-            // For JSONP support, like your current controllers
-            var json = JsonConvert.SerializeObject(new { d = new { results = items } });
-            return Content($"{callback}({json})", "application/javascript");
+            return Json(notifications, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: /Notifications/GetById?id=1
-        [HttpGet]
-        public ActionResult GetById(string callback, string id)
-        {
-            var notification = items.FirstOrDefault(n => n.id == id);
-            var json = JsonConvert.SerializeObject(new { d = notification });
-            return Content($"{callback}({json})", "application/javascript");
-        }
-
-        // POST: /Notifications/Create
         [HttpPost]
-        public ActionResult Create(Notification notification)
+        public JsonResult Create(Notification notification)
         {
-            notification.id = (items.Count + 1).ToString();
-            items.Add(notification);
-            return Json(new { success = true, notification });
+            notification.Id = notifications.Count + 1;
+            notifications.Add(notification);
+            return Json(notification);
         }
 
-        // POST: /Notifications/Update
-        [HttpPost]
-        public ActionResult Update(Notification notification)
+        [HttpPut]
+        public JsonResult Update(int id, Notification notification)
         {
-            var existing = items.FirstOrDefault(n => n.id == notification.id);
-            if (existing != null)
+            var n = notifications.Find(x => x.Id == id);
+            if (n != null)
             {
-                existing.title = notification.title;
-                existing.message = notification.message;
-                existing.date = notification.date;
-                existing.type = notification.type;
+                n.Message = notification.Message;
+                n.Type = notification.Type;
             }
-            return Json(new { success = true, notification });
+            return Json(n);
         }
 
-        // POST: /Notifications/Delete
-        [HttpPost]
-        public ActionResult Delete(string id)
+        [HttpDelete]
+        public JsonResult Delete(int id)
         {
-            var existing = items.FirstOrDefault(n => n.id == id);
-            if (existing != null)
-            {
-                items.Remove(existing);
-            }
-            return Json(new { success = true });
+            notifications.RemoveAll(x => x.Id == id);
+            return Json(true);
         }
     }
+    public class Notification
+    {
+        public int Id { get; set; }
+        public string Message { get; set; }
+        public string Type { get; set; }
+    }
 }
+
+
+
