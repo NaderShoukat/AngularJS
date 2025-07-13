@@ -1,20 +1,31 @@
+<div>
+    <a href="#notifications">Notifications</a> &gt; <%= action %> Notification
+</div>
 <div class="title">
-    <h2>Manage Notifications</h2>
+    <h2><%= action %> Notification</h2>
 </div>
-<p class="updated">Last Published Date and Time: <span id="dateTime"></span></p>
-<nav class="navbar"></nav>
-<div class="grid-wrapper">
-    <table id="grid">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Message</th>
-                <th>Type</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <div id="pager"></div>
-</div>
+
+<form class="blue" id="notificationEditForm" action="" method="POST">
+    <div class="row-fluid blue span12">
+        <div class="row-fluid">
+            <label class="span3" for="title">Title:</label>
+            <input id="title" name="title" type="text" class="span6" value="<%= notification.title %>"/>
+        </div>
+        <div class="row-fluid">
+            <label class="span3" for="message">Message:</label>
+            <input id="message" name="message" type="text" class="span6" value="<%= notification.message %>"/>
+        </div>
+        <div class="row-fluid">
+            <label class="span3" for="type">Type:</label>
+            <input id="type" name="type" type="text" class="span6" value="<%= notification.type %>"/>
+        </div>
+        <div class="row-fluid">
+            <label class="span3" for="date">Date:</label>
+            <input id="date" name="date" type="date" class="span6" value="<%= notification.date %>"/>
+        </div>
+        <div class="row-fluid">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="#notifications" class="btn">Cancel</a>
+        </div>
+    </div>
+</form>
