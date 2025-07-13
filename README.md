@@ -1,27 +1,11 @@
-<h2>Manage Notifications</h2>
-<button class="new-notification">New Notification</button>
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% _.each(notifications, function(n) { %>
-            <tr>
-                <td><%= n.title %></td>
-                <td><%= n.message %></td>
-                <td><%= n.type %></td>
-                <td><%= n.date %></td>
-                <td>
-                    <button class="edit-notification" data-id="<%= n.id %>">Edit</button>
-                    <button class="delete-notification" data-id="<%= n.id %>">Delete</button>
-                </td>
-            </tr>
-        <% }); %>
-    </tbody>
-</table>
+<h2><% if (notification.id) { %>Edit<% } else { %>Create<% } %> Notification</h2>
+<form>
+    <% if (notification.id) { %>
+        <input type="hidden" name="id" value="<%= notification.id %>" />
+    <% } %>
+    <label>Title: <input type="text" name="title" value="<%= notification.title || '' %>"></label><br>
+    <label>Message: <input type="text" name="message" value="<%= notification.message || '' %>"></label><br>
+    <label>Type: <input type="text" name="type" value="<%= notification.type || '' %>"></label><br>
+    <label>Date: <input type="date" name="date" value="<%= notification.date || '' %>"></label><br>
+    <button type="submit">Save</button>
+</form>
