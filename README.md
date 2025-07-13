@@ -1,11 +1,20 @@
-<h2><% if (notification.id) { %>Edit<% } else { %>Create<% } %> Notification</h2>
-<form>
-    <% if (notification.id) { %>
-        <input type="hidden" name="id" value="<%= notification.id %>" />
-    <% } %>
-    <label>Title: <input type="text" name="title" value="<%= notification.title || '' %>"></label><br>
-    <label>Message: <input type="text" name="message" value="<%= notification.message || '' %>"></label><br>
-    <label>Type: <input type="text" name="type" value="<%= notification.type || '' %>"></label><br>
-    <label>Date: <input type="date" name="date" value="<%= notification.date || '' %>"></label><br>
-    <button type="submit">Save</button>
-</form>
+<div class="title">
+    <h2>Manage Notifications</h2>
+</div>
+<p class="updated">Last Published Date and Time: <span id="dateTime"></span></p>
+<nav class="navbar"></nav>
+<div class="grid-wrapper">
+    <table id="grid">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Message</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="pager"></div>
+</div>
