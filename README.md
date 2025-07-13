@@ -1,20 +1,25 @@
-define([], function() {
+define([
+    'views/notifications/notificationDatagridView',
+    'views/notifications/notificationEditView'
+], function(notificationDatagridView, notificationEditView) {
     var notificationsRouter = Backbone.Router.extend({
         routes: {
             "notifications": "showNotifications",
             "notifications/new": "createNotification",
             "notifications/edit/:id": "editNotification"
-            // add more as needed
         },
 
-        showNotifications: function() {
-            // load notifications grid/view
+        showNotifications: function () {
+            // Render notifications grid view
+            notificationDatagridView.render();
         },
-        createNotification: function() {
-            // load create notification view
+
+        createNotification: function () {
+            notificationEditView.render({ mode: 'create' });
         },
-        editNotification: function(id) {
-            // load edit notification view
+
+        editNotification: function (id) {
+            notificationEditView.render({ mode: 'edit', id: id });
         }
     });
 
