@@ -5,3 +5,4 @@ notifications: function(callback) {
         }
     });
 },
+window.notificationsCollection = new NotificationsCollection(results.notifications.models);
