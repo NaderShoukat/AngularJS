@@ -1,58 +1,44 @@
 define([
-    'text!templates/notifications/edit.html',
-    'collections/NotificationsCollection'
-], function(editTemplate, NotificationsCollection) {
-    var NotificationsEditView = Backbone.View.extend({
-        el: '#main-content',
-        template: _.template(editTemplate),
+    'text!templates/notifications/navbar.html'
+], function(navbarTemplate) {
+    var NavbarView = Backbone.View.extend({
+        template: _.template(navbarTemplate),
         events: {
-            "submit #notificationEditForm": "saveNotification"
+            "click .new-item": "onNew",
+            "click .edit": "onEdit",
+            "click .delete": "onDelete",
+            "click .update-date": "onUpdate"
         },
-        initialize: function(options) {
-            this.options = options || {};
+        render: function() {
+            this.$el.html(this.template());
+            return this;
         },
-        render: function(id) {
-            var notification = {};
-            var action = id ? "Edit" : "New";
-            if (id) {
-                var self = this;
-                var collection = new NotificationsCollection();
-                collection.fetch({
-                    success: function() {
-                        var model = collection.get(id);
-                        notification = model ? model.toJSON() : {};
-                        self.$el.html(self.template({notification: notification, action: action}));
-                    }
-                });
-            } else {
-                this.$el.html(this.template({notification: notification, action: action}));
-            }
-        },
-        saveNotification: function(e) {
+        onNew: function(e) {
             e.preventDefault();
-            var attrs = {
-                title: this.$('#title').val(),
-                message: this.$('#message').val(),
-                type: this.$('#type').val(),
-                date: this.$('#date').val()
-            };
-            var id = this.options.id;
-            var collection = new NotificationsCollection();
-            var model = id ? collection.get(id) : collection.create(attrs, {wait: true});
-            if (id) {
-                model.save(attrs, {
-                    success: function() {
-                        window.location.hash = "#notifications";
-                    }
-                });
-            } else {
-                collection.create(attrs, {
-                    success: function() {
-                        window.location.hash = "#notifications";
-                    }
-                });
+            window.location.hash = "#notifications/new";
+        },
+        onEdit: function(e) {
+            e.preventDefault();
+            var selected = this.getSelectedId();
+            if (selected) {
+                window.location.hash = "#notifications/edit/" + selected;
             }
+        },
+        onDelete: function(e) {
+            e.preventDefault();
+            var selected = this.getSelectedId();
+            if (selected && confirm("Delete this notification?")) {
+                // Implement delete logic here
+            }
+        },
+        onUpdate: function(e) {
+            e.preventDefault();
+            // Optionally reload collection
+        },
+        getSelectedId: function() {
+            // Add logic to get selected notification's ID from grid (e.g., via .selected row)
+            return null;
         }
     });
-    return NotificationsEditView;
+    return NavbarView;
 });
