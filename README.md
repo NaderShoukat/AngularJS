@@ -1,36 +1,54 @@
-define(['models/ExamDocumentType'], function (ExamDocumentType) {
-    var examDocumentTypeCollection = Backbone.Collection.extend({
-        // url: getDataServiceUrl() + '/DocumentType?$format=json', // Not needed anymore
-        model: ExamDocumentType,
+sync: function (method, collection, options) {
+    // Static data example: adjust properties to what your UI expects
+    var response = {
+        items: [
+            {
+                id: 101,
+                name: "Relation A",
+                description: "Sample relation record"
+            },
+            {
+                id: 102,
+                name: "Relation B",
+                description: "Another relation"
+            }
+            // Add more as needed
+        ]
+    };
+    collection.add(response.items, { silent: true });
+    collection.trigger('reset');
+    if (options.success !== undefined)
+        options.success(collection.models);
+}
 
-        sync: function (method, collection, options) {
-            // Hardcoded static JSON data
-            var response = {
-                d: {
-                    results: [
-                        {
-                            id: 1,
-                            name: "Hardcoded Doc 1",
-                            description: "This document is static JSON",
-                            documenttype: "HDOC1"
-                        },
-                        {
-                            id: 2,
-                            name: "Hardcoded Doc 2",
-                            description: "Another hardcoded doc",
-                            documenttype: "HDOC2"
-                        }
-                        // Add more objects as needed
-                    ]
+
+
+
+
+
+
+
+sync: function (method, collection, options) {
+    // Static data example
+    var response = {
+        d: {
+            results: [
+                {
+                    id: 201,
+                    name: "Type X",
+                    description: "Document type X"
+                },
+                {
+                    id: 202,
+                    name: "Type Y",
+                    description: "Document type Y"
                 }
-            };
-            collection.add(response.d.results, { silent: true });
-            collection.trigger('reset');
-            if (options.success !== undefined)
-                options.success(collection.models);
+                // Add more as needed
+            ]
         }
-        // initialize: function() {} // Optional, can be left out if empty
-    });
-
-    return examDocumentTypeCollection;
-});
+    };
+    collection.add(response.d.results, { silent: true });
+    collection.trigger('reset');
+    if (options.success !== undefined)
+        options.success(collection.models);
+}
