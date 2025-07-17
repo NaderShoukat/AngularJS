@@ -23,11 +23,6 @@ sync: function (method, collection, options) {
 
 
 
-
-
-
-
-
 sync: function (method, collection, options) {
     // Static data example
     var response = {
