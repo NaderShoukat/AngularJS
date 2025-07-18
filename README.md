@@ -1,4 +1,4 @@
-html page:
+notifications.html:
 
 
 <div class="title">
@@ -13,7 +13,7 @@ html page:
 </div>
 
 
-js:
+notificationsView.js:
 define([
     'text!templates/notifications/notifications.html'
 ], function(template) {
@@ -29,7 +29,7 @@ define([
 });
 
 
-router:
+notificationsRouter:
 define([
     'views/notifications/notificationsView'
 ], function(notificationsView) {
