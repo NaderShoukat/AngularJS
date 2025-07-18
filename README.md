@@ -1,6 +1,5 @@
 define([], function () {
     var notificationsView = Backbone.View.extend({
-        // Use the template directly as HTML string
         template: _.template(`
             <table class="table">
                 <thead>
@@ -30,4 +29,23 @@ define([], function () {
         }
     });
     return notificationsView;
+});
+
+
+
+
+
+
+
+
+define(['views/notifications/notificationsView'], function (notificationsView) {
+    var notificationsRouter = Backbone.Router.extend({
+        routes: {
+            "notifications": "notifications"
+        },
+        notifications: function () {
+            $('.workarea').html(new notificationsView().render().el);
+        }
+    });
+    return notificationsRouter;
 });
