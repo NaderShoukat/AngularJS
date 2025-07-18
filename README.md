@@ -1,6 +1,4 @@
-notifications: function () {
-    // CSS for styling
-    var css = `
+var css = `
     .notif-header-bar {
         display: flex;
         justify-content: space-between;
@@ -128,4 +126,3 @@ notifications: function () {
             window.location.hash = '#notifications/create';
         });
     }, 100); // slight delay for DOM
-}
