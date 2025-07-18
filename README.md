@@ -22,6 +22,11 @@ var css = `
             margin: 0;
             color: #251782;
         }
+        .notif-actions-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
         .notif-add-btn {
             background: #247fff;
             color: #fff;
@@ -31,10 +36,22 @@ var css = `
             font-size: 1.1rem;
             font-weight: 600;
             transition: background 0.2s;
-            margin-right: 12px;
         }
         .notif-add-btn:hover {
             background: #0f5dc9;
+        }
+        .notif-history-btn {
+            background: #5c53e6;
+            color: #fff;
+            padding: 8px 22px;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .notif-history-btn:hover {
+            background: #352d99;
         }
         .notif-search {
             padding: 8px 12px;
@@ -42,6 +59,7 @@ var css = `
             border: 1px solid #d9d9d9;
             font-size: 1.06rem;
             width: 160px;
+            margin-left: 8px;
         }
         table.notif-table {
             width: 100%;
@@ -74,19 +92,18 @@ var css = `
         }
         .notif-action-edit { background: #247fff; }
         .notif-action-delete { background: #ff3c41; }
-        .notif-action-history { background: #5c53e6; }
         .notif-action-edit:hover { background: #0f5dc9; }
         .notif-action-delete:hover { background: #be2327; }
-        .notif-action-history:hover { background: #352d99; }
         .notif-status {
-            padding: 5px 16px;
+            padding: 5px 18px;
             border-radius: 6px;
             background: #f5f7fa;
             color: #222;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-block;
-            min-width: 80px;
+            min-width: 110px;
             text-align: center;
+            font-size: 1.04rem;
         }
     </style>
     `;
@@ -95,8 +112,9 @@ var css = `
     <div class="notif-table-container">
         <div class="notif-title-row">
             <h2>Manage Notifications</h2>
-            <div>
+            <div class="notif-actions-group">
                 <button class="notif-add-btn" onclick="window.location.hash='#notifications/create'">Add Notification</button>
+                <button class="notif-history-btn">History</button>
                 <input class="notif-search" type="text" placeholder="Search..." />
             </div>
         </div>
@@ -118,11 +136,10 @@ var css = `
                     <td>This is a reminder that all examiners must submit their Quarterly Exam Data by Friday, July 6, 2025.</td>
                     <td><span class="notif-status">Published</span></td>
                     <td>DC</td>
-                    <td>Name1</td>
+                    <td>Sarah Khan</td>
                     <td>2025-06-28</td>
                     <td>
                         <button class="notif-action-btn notif-action-edit" onclick="window.location.hash='#notifications/edit/1'">Edit</button>
-                        <button class="notif-action-btn notif-action-history">History</button>
                         <button class="notif-action-btn notif-action-delete">Delete</button>
                     </td>
                 </tr>
@@ -131,11 +148,10 @@ var css = `
                     <td>Help us improve ETS by filling out the short feedback survey available on the homepage.</td>
                     <td><span class="notif-status">Draft</span></td>
                     <td>DC</td>
-                    <td>Name2</td>
+                    <td>Usman Iqbal</td>
                     <td>2025-06-30</td>
                     <td>
                         <button class="notif-action-btn notif-action-edit" onclick="window.location.hash='#notifications/edit/2'">Edit</button>
-                        <button class="notif-action-btn notif-action-history">History</button>
                         <button class="notif-action-btn notif-action-delete">Delete</button>
                     </td>
                 </tr>
@@ -143,5 +159,3 @@ var css = `
         </table>
     </div>
     `;
-
-    $('.workarea').html(css + html);
