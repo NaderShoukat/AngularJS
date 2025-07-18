@@ -1,161 +1,139 @@
-var css = `
+history: function () {
+    var css = `
     <style>
-        .notif-table-container {
+        .history-container {
             background: #fff;
             border-radius: 10px;
             margin: 32px 0 0 0;
-            padding: 20px 16px 36px 16px;
-            box-shadow: 0 4px 18px rgba(80,80,120,0.12);
-            max-width: 1000px;
+            padding: 24px 18px 38px 18px;
+            box-shadow: 0 4px 18px rgba(80,80,120,0.11);
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
         }
-        .notif-title-row {
+        .history-title-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
-        .notif-title-row h2 {
-            font-size: 2.2rem;
+        .history-title-row h2 {
+            font-size: 2.1rem;
             font-weight: 700;
             margin: 0;
             color: #251782;
         }
-        .notif-actions-group {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .notif-add-btn {
+        .history-back-btn {
             background: #247fff;
-            color: #fff;
-            padding: 8px 26px;
-            border: none;
-            border-radius: 7px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .notif-add-btn:hover {
-            background: #0f5dc9;
-        }
-        .notif-history-btn {
-            background: #5c53e6;
             color: #fff;
             padding: 8px 22px;
             border: none;
             border-radius: 7px;
-            font-size: 1.1rem;
+            font-size: 1.08rem;
             font-weight: 600;
             transition: background 0.2s;
+            margin-right: 8px;
         }
-        .notif-history-btn:hover {
-            background: #352d99;
+        .history-back-btn:hover {
+            background: #0f5dc9;
         }
-        .notif-search {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #d9d9d9;
-            font-size: 1.06rem;
-            width: 160px;
-            margin-left: 8px;
-        }
-        table.notif-table {
+        .history-table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 14px;
         }
-        table.notif-table th, table.notif-table td {
+        .history-table th, .history-table td {
             text-align: left;
-            padding: 10px 10px;
+            padding: 9px 10px;
         }
-        table.notif-table th {
+        .history-table th {
             background: #fafafa;
             font-size: 1.08rem;
             font-weight: 700;
             letter-spacing: 0.03rem;
         }
-        table.notif-table tr {
+        .history-table tr {
             border-bottom: 1px solid #f0f0f0;
         }
-        .notif-action-btn {
-            margin: 2px 2px;
-            padding: 5px 13px;
-            border-radius: 6px;
-            border: none;
-            color: #fff;
-            font-size: 1.01rem;
+        .history-status {
+            padding: 4px 15px;
+            border-radius: 5px;
+            background: #f1f4fa;
+            color: #333;
             font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.18s;
             display: inline-block;
-        }
-        .notif-action-edit { background: #247fff; }
-        .notif-action-delete { background: #ff3c41; }
-        .notif-action-edit:hover { background: #0f5dc9; }
-        .notif-action-delete:hover { background: #be2327; }
-        .notif-status {
-            padding: 5px 18px;
-            border-radius: 6px;
-            background: #f5f7fa;
-            color: #222;
-            font-weight: 700;
-            display: inline-block;
-            min-width: 110px;
+            min-width: 85px;
             text-align: center;
-            font-size: 1.04rem;
+            font-size: 1.01rem;
+        }
+        .history-user {
+            color: #251782;
+            font-weight: 700;
+        }
+        .history-date {
+            color: #4a4a4a;
+            font-size: 0.97rem;
+        }
+        .history-msg {
+            font-size: 1.01rem;
         }
     </style>
     `;
-
     var html = `
-    <div class="notif-table-container">
-        <div class="notif-title-row">
-            <h2>Manage Notifications</h2>
-            <div class="notif-actions-group">
-                <button class="notif-add-btn" onclick="window.location.hash='#notifications/create'">Add Notification</button>
-                <button class="notif-history-btn">History</button>
-                <input class="notif-search" type="text" placeholder="Search..." />
-            </div>
+    <div class="history-container">
+        <div class="history-title-row">
+            <h2>Notification History (Last 2 Years)</h2>
+            <button class="history-back-btn" onclick="window.location.hash='#notifications'">&larr; Back</button>
         </div>
-        <table class="notif-table">
+        <table class="history-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Message</th>
+                    <th>#</th>
+                    <th>Date & Time</th>
+                    <th>User</th>
                     <th>Status</th>
-                    <th>Type</th>
-                    <th>Created By</th>
-                    <th>Created Date</th>
-                    <th>Action</th>
+                    <th>Message (Summary)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>This is a reminder that all examiners must submit their Quarterly Exam Data by Friday, July 6, 2025.</td>
-                    <td><span class="notif-status">Published</span></td>
-                    <td>DC</td>
-                    <td>Sarah Khan</td>
-                    <td>2025-06-28</td>
-                    <td>
-                        <button class="notif-action-btn notif-action-edit" onclick="window.location.hash='#notifications/edit/1'">Edit</button>
-                        <button class="notif-action-btn notif-action-delete">Delete</button>
-                    </td>
+                    <td class="history-date">2024-07-05 09:15</td>
+                    <td class="history-user">Sarah Khan</td>
+                    <td><span class="history-status">Published</span></td>
+                    <td class="history-msg">Quarterly Exam Data notification created and published.</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>Help us improve ETS by filling out the short feedback survey available on the homepage.</td>
-                    <td><span class="notif-status">Draft</span></td>
-                    <td>DC</td>
-                    <td>Usman Iqbal</td>
-                    <td>2025-06-30</td>
-                    <td>
-                        <button class="notif-action-btn notif-action-edit" onclick="window.location.hash='#notifications/edit/2'">Edit</button>
-                        <button class="notif-action-btn notif-action-delete">Delete</button>
-                    </td>
+                    <td class="history-date">2024-12-02 14:22</td>
+                    <td class="history-user">Usman Iqbal</td>
+                    <td><span class="history-status">Draft</span></td>
+                    <td class="history-msg">Draft saved for feedback survey notification.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="history-date">2025-01-08 10:40</td>
+                    <td class="history-user">Sarah Khan</td>
+                    <td><span class="history-status">Published</span></td>
+                    <td class="history-msg">Feedback survey notification published.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td class="history-date">2025-05-19 17:30</td>
+                    <td class="history-user">Usman Iqbal</td>
+                    <td><span class="history-status">Updated</span></td>
+                    <td class="history-msg">Message content updated for quarterly data reminder.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td class="history-date">2025-06-28 13:16</td>
+                    <td class="history-user">Sarah Khan</td>
+                    <td><span class="history-status">Published</span></td>
+                    <td class="history-msg">Minor typo fixed in published notification.</td>
                 </tr>
             </tbody>
         </table>
     </div>
     `;
+    $('.workarea').html(css + html);
+},
