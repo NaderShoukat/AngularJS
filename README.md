@@ -1,155 +1,131 @@
-$('.workarea').html('<style>' + your_css_above + '</style>' + html);
+notifications: function () {
+    // CSS for styling
+    var css = `
+    .notif-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        margin-top: 16px;
+    }
+    .notif-title {
+        flex: 1;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    .notif-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .add-btn {
+        background: #1976d2;
+        color: #fff;
+        font-weight: 500;
+        padding: 7px 18px;
+        border-radius: 7px;
+        margin-right: 6px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .add-btn:hover { background: #155fa0; }
+    .notif-search {
+        padding: 7px 12px;
+        border-radius: 7px;
+        border: 1px solid #ddd;
+        min-width: 170px;
+    }
+    .notif-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 1rem;
+        margin-top: 5px;
+    }
+    .notif-table th, .notif-table td {
+        padding: 14px 10px;
+        text-align: left;
+        border-bottom: 1px solid #f1f1f1;
+    }
+    .notif-table th {
+        background: #fafafa;
+        font-weight: 700;
+    }
+    .action-btn {
+        margin-right: 6px;
+        padding: 4px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn-primary { background: #1976d2; color: #fff; }
+    .btn-primary:hover { background: #155fa0; }
+    .btn-danger { background: #ff5252; color: #fff; }
+    .btn-danger:hover { background: #d32f2f; }
+    `;
 
-// Handle form submit: Redirect to index
-$('.create-card form').on('submit', function (e) {
-    e.preventDefault(); // Stop form from actually submitting
-    window.location.hash = "#notifications"; // Route to index page
-});
-
-
-
-
-
-
-var your_css_above = ` /* --- Same CSS as above, just min-height: 48px --- */
-.create-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 90vh;
-    background: #fafbff;
-}
-.create-card {
-    background: #fff;
-    padding: 2.2rem 2.2rem 1.8rem 2.2rem;
-    border-radius: 14px;
-    box-shadow: 0 8px 32px rgba(80, 120, 210, 0.09), 0 1.5px 6px rgba(50, 50, 90, 0.08);
-    max-width: 440px;
-    width: 100%;
-    margin: 2.3rem 0;
-}
-.create-card h3 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
-    font-size: 1.45rem;
-    color: #223359;
-    letter-spacing: 0.7px;
-}
-.form-label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    margin-top: 0.7rem;
-    color: #203040;
-    font-size: 1rem;
-    display: block;
-    letter-spacing: 0.07em;
-}
-.form-control, .form-select {
-    width: 100%;
-    padding: 0.7rem 1rem;
-    margin-bottom: 0.45rem;
-    font-size: 1rem;
-    border: 1px solid #d2d6dc;
-    border-radius: 8px;
-    background: #f6f8fb;
-    transition: border 0.2s;
-    min-height: 48px; /* changed to 48px */
-    box-sizing: border-box;
-}
-.form-control:focus, .form-select:focus {
-    outline: none;
-    border-color: #4a77ff;
-    background: #f1f5fe;
-}
-textarea.form-control {
-    min-height: 68px;
-    max-height: 120px;
-    resize: vertical;
-}
-.btn-primary {
-    display: block;
-    width: 100%;
-    padding: 0.85rem 0;
-    background: linear-gradient(90deg, #306BFF 70%, #0A4BFF 100%);
-    border: none;
-    color: #fff;
-    font-size: 1.09rem;
-    border-radius: 8px;
-    font-weight: 600;
-    margin-top: 1.3rem;
-    box-shadow: 0 2px 12px 0 rgba(40,90,200,0.08);
-    transition: background 0.2s;
-    letter-spacing: 0.07em;
-}
-.btn-primary:hover {
-    background: linear-gradient(90deg, #0A4BFF 90%, #306BFF 100%);
-}
-.date-row {
-    display: flex;
-    gap: 0.7rem;
-}
-.date-group {
-    flex: 1;
-    min-width: 0;
-}
-`;
-
-var data = {
-    message: "This is a reminder that all examiners must submit their Quarterly Exam Data by Friday, July 6, 2025.",
-    type: "Ongoing",
-    startDate: "2025-06-01",
-    endDate: "2025-07-06",
-    status: "Published",
-    createdBy: "Name1"
-};
-
-var html = `
-<div class="create-container">
-  <div class="create-card">
-    <h3>Edit Notification</h3>
-    <form>
-      <label class="form-label" for="message">Message</label>
-      <textarea class="form-control" id="message">${data.message}</textarea>
-
-      <label class="form-label" for="type">Types</label>
-      <select class="form-select" id="type">
-        <option${data.type === "Ongoing" ? " selected" : ""}>Ongoing</option>
-        <option${data.type === "One-time" ? " selected" : ""}>One-time</option>
-        <option${data.type === "Template" ? " selected" : ""}>Template</option>
-        <option${data.type === "Release Notes" ? " selected" : ""}>Release Notes</option>
-      </select>
-
-      <div class="date-row">
-        <div class="date-group">
-          <label class="form-label" for="startdate">Starting Date</label>
-          <input type="date" class="form-control" id="startdate" value="${data.startDate}">
+    // Hardcoded HTML
+    var html = `
+    <div class="notif-header-bar">
+        <div class="notif-title">Manage Notifications</div>
+        <div class="notif-actions">
+            <button class="btn btn-primary add-btn" id="addNotifBtn">Add Notification</button>
+            <input type="text" class="notif-search" placeholder="Search...">
         </div>
-        <div class="date-group">
-          <label class="form-label" for="enddate">End Date</label>
-          <input type="date" class="form-control" id="enddate" value="${data.endDate}">
-        </div>
-      </div>
+    </div>
+    <table class="notif-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Created By</th>
+                <th>Created Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>This is a reminder that all examiners must submit their Quarterly Exam Data by Friday, July 6, 2025.</td>
+                <td><input type="checkbox" checked disabled></td>
+                <td>DC</td>
+                <td>On-Demand</td>
+                <td>2025-06-28</td>
+                <td>
+                    <button class="btn btn-primary action-btn" onclick="window.location.hash='#notifications/edit/1'">Edit</button>
+                    <button class="btn btn-danger action-btn">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Help us improve ETS by filling out the short feedback survey available on the homepage.</td>
+                <td><input type="checkbox" disabled></td>
+                <td>DC</td>
+                <td>On-Demand</td>
+                <td>2025-06-28</td>
+                <td>
+                    <button class="btn btn-primary action-btn" onclick="window.location.hash='#notifications/edit/2'">Edit</button>
+                    <button class="btn btn-danger action-btn">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    `;
 
-      <label class="form-label" for="status">Status</label>
-      <select class="form-select" id="status">
-        <option${data.status === "Published" ? " selected" : ""}>Published</option>
-        <option${data.status === "Draft" ? " selected" : ""}>Draft</option>
-        <option${data.status === "Queued" ? " selected" : ""}>Queued</option>
-      </select>
+    $('.workarea').html('<style>' + css + '</style>' + html);
 
-      <label class="form-label" for="createdby">Created By</label>
-      <select class="form-select" id="createdby">
-        <option${data.createdBy === "Name1" ? " selected" : ""}>Name1</option>
-        <option${data.createdBy === "Name2" ? " selected" : ""}>Name2</option>
-        <option${data.createdBy === "Name3" ? " selected" : ""}>Name3</option>
-      </select>
-
-      <button type="submit" class="btn-primary">Update Notification</button>
-    </form>
-  </div>
-</div>
-`;
-
-$('.workarea').html('<style>' + your_css_above + '</style>' + html);
-this.highlightTab && this.highlightTab();
+    // Add routing for Add Notification
+    setTimeout(function() {
+        $('#addNotifBtn').off('click').on('click', function () {
+            window.location.hash = '#notifications/create';
+        });
+    }, 100); // slight delay for DOM
+}
