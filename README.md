@@ -1,4 +1,17 @@
-var your_css_above = `
+$('.workarea').html('<style>' + your_css_above + '</style>' + html);
+
+// Handle form submit: Redirect to index
+$('.create-card form').on('submit', function (e) {
+    e.preventDefault(); // Stop form from actually submitting
+    window.location.hash = "#notifications"; // Route to index page
+});
+
+
+
+
+
+
+var your_css_above = ` /* --- Same CSS as above, just min-height: 48px --- */
 .create-container {
     display: flex;
     justify-content: center;
@@ -41,7 +54,7 @@ var your_css_above = `
     border-radius: 8px;
     background: #f6f8fb;
     transition: border 0.2s;
-    min-height: 38px;
+    min-height: 48px; /* changed to 48px */
     box-sizing: border-box;
 }
 .form-control:focus, .form-select:focus {
@@ -82,48 +95,57 @@ textarea.form-control {
 }
 `;
 
+var data = {
+    message: "This is a reminder that all examiners must submit their Quarterly Exam Data by Friday, July 6, 2025.",
+    type: "Ongoing",
+    startDate: "2025-06-01",
+    endDate: "2025-07-06",
+    status: "Published",
+    createdBy: "Name1"
+};
+
 var html = `
 <div class="create-container">
   <div class="create-card">
-    <h3>Create Notification</h3>
+    <h3>Edit Notification</h3>
     <form>
       <label class="form-label" for="message">Message</label>
-      <textarea class="form-control" id="message" placeholder="Enter notification message"></textarea>
+      <textarea class="form-control" id="message">${data.message}</textarea>
 
       <label class="form-label" for="type">Types</label>
       <select class="form-select" id="type">
-        <option>Ongoing</option>
-        <option>One-time</option>
-        <option>Template</option>
-        <option>Release Notes</option>
+        <option${data.type === "Ongoing" ? " selected" : ""}>Ongoing</option>
+        <option${data.type === "One-time" ? " selected" : ""}>One-time</option>
+        <option${data.type === "Template" ? " selected" : ""}>Template</option>
+        <option${data.type === "Release Notes" ? " selected" : ""}>Release Notes</option>
       </select>
 
       <div class="date-row">
         <div class="date-group">
           <label class="form-label" for="startdate">Starting Date</label>
-          <input type="date" class="form-control" id="startdate" placeholder="mm/dd/yyyy">
+          <input type="date" class="form-control" id="startdate" value="${data.startDate}">
         </div>
         <div class="date-group">
           <label class="form-label" for="enddate">End Date</label>
-          <input type="date" class="form-control" id="enddate" placeholder="mm/dd/yyyy">
+          <input type="date" class="form-control" id="enddate" value="${data.endDate}">
         </div>
       </div>
 
       <label class="form-label" for="status">Status</label>
       <select class="form-select" id="status">
-        <option>Published</option>
-        <option>Draft</option>
-        <option>Queued</option>
+        <option${data.status === "Published" ? " selected" : ""}>Published</option>
+        <option${data.status === "Draft" ? " selected" : ""}>Draft</option>
+        <option${data.status === "Queued" ? " selected" : ""}>Queued</option>
       </select>
 
       <label class="form-label" for="createdby">Created By</label>
       <select class="form-select" id="createdby">
-        <option>Name1</option>
-        <option>Name2</option>
-        <option>Name3</option>
+        <option${data.createdBy === "Name1" ? " selected" : ""}>Name1</option>
+        <option${data.createdBy === "Name2" ? " selected" : ""}>Name2</option>
+        <option${data.createdBy === "Name3" ? " selected" : ""}>Name3</option>
       </select>
 
-      <button type="submit" class="btn-primary">Submit Notification</button>
+      <button type="submit" class="btn-primary">Update Notification</button>
     </form>
   </div>
 </div>
