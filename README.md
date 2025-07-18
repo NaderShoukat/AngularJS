@@ -31,22 +31,17 @@ define([
 
 router:
 define([
-    // ... other views ...
     'views/notifications/notificationsView'
-], function(
-    // ... other views ...
-    notificationsView
-) {
-    var MainRouter = Backbone.Router.extend({
+], function(notificationsView) {
+    var notificationsRouter = Backbone.Router.extend({
         routes: {
-            // ... other routes ...
-            'notifications': 'notifications'
+            "notifications": "index"
         },
-        notifications: function () {
-            var view = new notificationsView();
-            $('.workarea').html(view.render().el); // Render in main work area
+        initialize: function () {},
+        index: function () {
+            // Render the notifications view in the main work area
+            $('.workarea').html(new notificationsView().render().el);
         }
     });
-    return MainRouter;
+    return notificationsRouter;
 });
-
