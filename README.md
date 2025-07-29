@@ -1,21 +1,18 @@
-public void AddITFilesRootFolder(Guid examinationId)
+public PublicFolder GetITFilesFolder(Guid examinationId)
 {
     const string itFolderName = "IT Files";
 
-    var existing = UnitOfWork.Set<Folder>()
-        .Where(x => x.ExaminationId == examinationId && x.Parent == null && x.Name == itFolderName)
-        .FirstOrDefault();
+    var itFolder = UnitOfWork.Set<Folder>()
+        .OfType<PublicFolder>()
+        .FirstOrDefault(x => x.ExaminationId == examinationId && x.Parent == null && x.Name == itFolderName);
 
-    if (existing != null)
-        return; // already exists
+    return itFolder;
+}
 
-    var itFolder = new PublicFolder
-    {
-        Name = itFolderName,
-        ExaminationId = examinationId,
-        // Add other properties if needed, like CreatedDate, CreatedBy
-    };
 
-    Add(itFolder);
-    UnitOfWork.Commit();
+var itFolder = broker.Value.GetITFilesFolder();
+if (itFolder != null)
+{
+    var itFolderVM = _currentObjectScope.Resolve<IPublicFolder, IPublicFolderViewModel>(itFolder);
+    _explorerItems.Add(itFolderVM);
 }
