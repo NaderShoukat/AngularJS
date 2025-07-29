@@ -1,25 +1,21 @@
-public IEnumerable<IResult> AddNewFolder()
+public void AddITFilesRootFolder(Guid examinationId)
 {
-    // TEMP: Directly create "IT Files" under root
+    const string itFolderName = "IT Files";
 
-    using (var broker = _folderBrokerFactoryDelegate.Invoke())
+    var existing = UnitOfWork.Set<Folder>()
+        .Where(x => x.ExaminationId == examinationId && x.Parent == null && x.Name == itFolderName)
+        .FirstOrDefault();
+
+    if (existing != null)
+        return; // already exists
+
+    var itFolder = new PublicFolder
     {
-        var tag = broker.Value.AddNewFolder(SelectedExaminationContext.ExaminationId, Model);
-        if (tag == null)
-            yield break;
+        Name = itFolderName,
+        ExaminationId = examinationId,
+        // Add other properties if needed, like CreatedDate, CreatedBy
+    };
 
-        // Create the view model from tag
-        var newFolder = (IExplorerItemViewModel)Children.FirstOrDefault(x => x.Id == tag.Id);
-        if (newFolder == null)
-            yield break;
-
-        // Set display name to "IT Files"
-        newFolder.DisplayName = "IT Files";
-
-        // Add to root (outside any selected folder)
-        Items.Add(newFolder); // Replace 'Items' if your root collection has a different name
-
-        // Let user rename if needed
-        newFolder.StartRename();
-    }
+    Add(itFolder);
+    UnitOfWork.Commit();
 }
