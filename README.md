@@ -1,18 +1,6 @@
-public PublicFolder GetITFilesFolder(Guid examinationId)
-{
-    const string itFolderName = "IT Files";
+var itFolder = broker.Value.GetITFilesFolder(_selectedExaminationContext.ExaminationId);
+    if (itFolder != null)
+        _itFolderRoot = _currentObjectScope.Resolve<IPublicFolder, IPublicFolderViewModel>(itFolder);
 
-    var itFolder = UnitOfWork.Set<Folder>()
-        .OfType<PublicFolder>()
-        .FirstOrDefault(x => x.ExaminationId == examinationId && x.Parent == null && x.Name == itFolderName);
-
-    return itFolder;
-}
-
-
-var itFolder = broker.Value.GetITFilesFolder();
-if (itFolder != null)
-{
-    var itFolderVM = _currentObjectScope.Resolve<IPublicFolder, IPublicFolderViewModel>(itFolder);
-    _explorerItems.Add(itFolderVM);
-}
+if (_itFolderRoot != null)
+    _explorerItems.Add(_itFolderRoot);
