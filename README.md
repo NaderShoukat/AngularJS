@@ -1,23 +1,7 @@
-public class ITFolderViewModel : FolderViewModel, IITFolderViewModel
-{
-    public ITFolderViewModel(
-        PublicFolder model,
-        IStageUserInteraction userInteraction,
-        ISelectedExaminationContext selectedExaminationContext,
-        ILog logger,
-        IEventAggregator eventAggregator,
-        Func<IFolder, IGenericFolderViewModel> folderViewModelFactoryDelegate,
-        Func<ExaminationFile, IImportedItemViewModel> importedItemViewModelFactoryDelegate,
-        Func<ExaminationDocument, IWorkPaperViewModel> workPaperViewModelFactoryDelegate,
-        Func<IWorkPaperDialogViewModel> addWorkpaperFactory,
-        Func<IAddFolderViewModel> addFolderViewModelFactory,
-        IComponentContext componentContext)
-        : base(model, userInteraction, selectedExaminationContext, logger, eventAggregator,
-              folderViewModelFactoryDelegate, importedItemViewModelFactoryDelegate,
-              workPaperViewModelFactoryDelegate, addWorkpaperFactory,
-              addFolderViewModelFactory, componentContext)
-    {
-    }
+CREATE USER ETSNotification IDENTIFIED BY "StrongPass1!"
+  DEFAULT TABLESPACE USERS
+  TEMPORARY TABLESPACE TEMP
+  QUOTA UNLIMITED ON USERS;
 
-    // Optional: Override any folder-specific behavior here
-}
+GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE SEQUENCE,
+      CREATE PROCEDURE, CREATE TRIGGER TO ETSNotification;
